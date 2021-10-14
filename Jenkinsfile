@@ -31,3 +31,4 @@ pipeline { /* os estágios da pipeline estarão nesse bloco */
 
     }
 }
+}    

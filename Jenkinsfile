@@ -11,7 +11,7 @@ pipeline { /* os estágios da pipeline estarão nesse bloco */
         stage('Build Image') { /* segunda etapa */
             steps {
                 script {
-                    dockerapi = sudo docker.build("breinerhenrique/api-produto:${env.BUILD_ID}", '-f src/PedeLogo.Catalogo.Api/Dockerfile .') /* comando de criação da imagem */
+                    sudo docker.build("breinerhenrique/api-produto:${env.BUILD_ID}", '-f src/PedeLogo.Catalogo.Api/Dockerfile .') /* comando de criação da imagem */
                 } 
                 
             }

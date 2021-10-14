@@ -7,7 +7,7 @@ pipeline { /* os estágios da pipeline estarão nesse bloco */
                 git url:'https://github.com/breinerHenrique/pedelogo-catalogo.git', branch: 'main' /* 'pega' a fonte do projeto */
             }
         }
-        
+
         stage('Build Image') { /* segunda etapa */
             steps {
                 script {
@@ -32,4 +32,4 @@ pipeline { /* os estágios da pipeline estarão nesse bloco */
 
     }
 }
-}    
+    

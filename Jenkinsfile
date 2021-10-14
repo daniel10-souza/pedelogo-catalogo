@@ -11,7 +11,7 @@ pipeline { /* os estágios da pipeline estarão nesse bloco */
         stage('Build Image') { /* segunda etapa */
             steps {
                 script {
-                    dockerapp = sudo docker.build("breinerhenrique/api-produto:${env.BUILD_ID}", '-f src/PedeLogo.Catalogo.Api/Dockerfile .') /* comando de criação da imagem */
+                    dockerapi = sudo docker.build("breinerhenrique/api-produto:${env.BUILD_ID}", '-f src/PedeLogo.Catalogo.Api/Dockerfile .') /* comando de criação da imagem */
                 } 
                 
             }
@@ -23,8 +23,8 @@ pipeline { /* os estágios da pipeline estarão nesse bloco */
             steps {
                 script { /* registra no docker hub com a credencial criada no Jenkins, em seguida, faz o push das duas imagens */
                         sudo docker.withRegistry('https://registry.hub.docker.com', 'docker_hub') {
-                        sudo dockerapp.push('latest')
-                        sudo dockerapp.push("${env.BUILD_ID}")
+                        sudo dockerapi.push('latest')
+                        sudo dockerapi.push("${env.BUILD_ID}")
                     }
                 }
             }

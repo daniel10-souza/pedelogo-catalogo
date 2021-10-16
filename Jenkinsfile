@@ -29,7 +29,23 @@ pipeline { /* os estágios da pipeline estarão nesse bloco */
                 }
             }
         }
-
+        stage('Deploy Kubernetes') {
+            agent{ /*Define um novo agente para excutar o deploy*/
+                kubernetes{
+                    cloud 'kubernetes-gke' /*nome do cloud provider*/
+                }
+            }
+            environment{
+                tag_version = "${env.BUILD_ID}" /* Define a tag a ser usada no deploy da aplicação */
+            }
+            steps {
+                script{
+                    sh 'sed -i "s/{{tag}}/$tag_version/g" ./k8s/api/deployment.yaml' /*insere a tag no arquivo de deployment*/
+                    sh 'cat .k8s/api/deployment.yaml' /*exibe o conteudo para verificar se alterou*/
+                    kubernetesDeploy(configs: '**/k8s/**', kubeconfigId: 'kubeconfig') /*faz o deploy, utilziando a credencial do kubeconfig no Jenkins e passando a pasta com os manifestos*/
+                }
+            }
+        }
     }
 }
     

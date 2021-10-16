@@ -14,9 +14,9 @@ spec:
       containers:
       - name: mongodb
         image: mongo:4.2.8
-        volumeMounts:
-        - mountPath: /data/db
-          name: mongo-data
+        # volumeMounts:
+        # - mountPath: /data/db
+        #   name: mongo-data
         ports:
         - containerPort: 27017        
         envFrom:
@@ -29,8 +29,8 @@ spec:
           limits:
             memory: 256Mi
             cpu: 150m
-      volumes:
-      - name: mongo-data
-        hostPath:
-          path: /volumes/mongodb
+      # volumes:
+      # - name: mongo-data
+      #   hostPath:
+      #     path: /volumes/mongodb
 

@@ -1,10 +1,10 @@
-pipeline { /* os estágios da pipeline estarão nesse bloco */
-    agent any /* agente é 'quem' vai executar a pipeline */
+pipeline { 
+    agent any 
 
-    stages { /* inicia a criação das etapas */
-        stage('Checkout Source') { /* primeira etapa */
-            steps { /* define os passos a serem executados nessa etapa */
-                git url:'https://github.com/daniel10-souza/pedelogo-catalogo.git', branch: 'main' /* 'pega' a fonte do projeto */
+    stages { 
+        stage('Checkout Source') { 
+            steps { 
+                git url:'https://github.com/daniel10-souza/pedelogo-catalogo.git', branch: 'main' 
             }
         }
 
@@ -19,9 +19,9 @@ pipeline { /* os estágios da pipeline estarão nesse bloco */
 
         }
 
-        stage('Push Image') {
+        stage('Push Image') { /* terceira etapa */
             steps {
-                script { /* registra no docker hub com a credencial criada no Jenkins, em seguida, faz o push das duas imagens */
+                script { 
                         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
                         dockerapp.push('latest')
                         dockerapp.push("${env.BUILD_ID}")
@@ -29,20 +29,20 @@ pipeline { /* os estágios da pipeline estarão nesse bloco */
                 }
             }
         }
-        stage('Deploy Kubernetes') {
-            agent { /*Define um novo agente para excutar o deploy*/
+        stage('Deploy Kubernetes') { /* quarta etapa */
+            agent { 
                 kubernetes {
-                    cloud 'kubernetes' /*nome do cloud provider*/
+                    cloud 'kubernetes' 
                 }
             }
             environment{
-                tag_version = "${env.BUILD_ID}" /* Define a tag a ser usada no deploy da aplicação */
+                tag_version = "${env.BUILD_ID}" 
             }
             steps {
                 script {
-                    sh 'sed -i "s/{{tag}}/$tag_version/g" ./k8s/api/deployment.yaml' /*insere a tag no arquivo de deployment*/
-                    sh 'cat ./k8s/api/deployment.yaml' /*exibe o conteudo para verificar se alterou*/
-                    kubernetesDeploy(configs: '**/k8s/**', kubeconfigId: 'kubeconfig') /*faz o deploy, utilziando a credencial do kubeconfig no Jenkins e passando a pasta com os manifestos*/
+                    sh 'sed -i "s/{{tag}}/$tag_version/g" ./k8s/api/deployment.yaml' 
+                    sh 'cat ./k8s/api/deployment.yaml' 
+                    kubernetesDeploy(configs: '**/k8s/**', kubeconfigId: 'kubeconfig') 
                 }
             }
         }

@@ -2,7 +2,7 @@ pipeline {
     agent any 
 
     stages { 
-        stage('Checkout Source') { 
+        stage('Checkout Source') { /* primeira etapa */
             steps { 
                 git url:'https://github.com/daniel10-souza/pedelogo-catalogo.git', branch: 'main' 
             }

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: api
-        image: daniel10souza/api-produto:{{tag}} #cria uma tag para utilizar no deploy do Jenkinsfile
+        image: daniel10souza/api-produto:58: #cria uma tag para utilizar no deploy do Jenkinsfile
         ports:
         - containerPort: 80
         imagePullPolicy: Always

@@ -14,17 +14,17 @@ spec:
     spec:
       containers:
       - name: api
-        image: daniel10souza/api-produto:58: #cria uma tag para utilizar no deploy do Jenkinsfile
+        image: daniel10souza/api-produto:10 #cria uma tag para utilizar no deploy do Jenkinsfile
         ports:
         - containerPort: 80
         imagePullPolicy: Always
         resources:
-          requests:
-            memory: 64Mi
-            cpu: 40m
-          limits:
-            memory: 256Mi
-            cpu: 100m
+#          requests:
+#            memory: 64Mi
+#            cpu: 40m
+#          limits:
+#            memory: 256Mi
+#            cpu: 100m
         envFrom:
           - configMapRef:
               name: api-configmap
